@@ -16,7 +16,7 @@ import ChartPointLabel from './chartComponents/ChartPointLabel'
 
 import LegendComponent from './chartComponents/LegendComponent'
 
-const ChartComponent = (props)=>{
+export const ChartComponent = (props)=>{
 	
 	const activeZoom = () => {}//zoomToggle(!zoomIsActive);
 
