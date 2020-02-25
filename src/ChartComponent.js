@@ -1,25 +1,25 @@
 import React , {useState} from 'react';
 import { Container} from "reactstrap";
-import ChartElements from "./chartComponents/ChartElements"
+import ChartElements from "./chartComponents/ChartElements";
 
 import  {ResponsiveContainer, Rectangle,Surface,BarChart,
 	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
 	     CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
 
-import XAxisLabel from './chartComponents/XAxisLabel'
-import SelectableLegendItem from './chartComponents/SelectableLegendItem'
+import XAxisLabel from './chartComponents/XAxisLabel';
+import SelectableLegendItem from './chartComponents/SelectableLegendItem';
 
-import ZoomSelection from './chartComponents/ZoomSelection'
+import ZoomSelection from './chartComponents/ZoomSelection';
 
 import { SizeMe } from 'react-sizeme';
-import ChartPointLabel from './chartComponents/ChartPointLabel'
+import ChartPointLabel from './chartComponents/ChartPointLabel';
 
 import LegendComponent from './chartComponents/LegendComponent'
 import moment from 'moment'
 
 export const ChartComponent = (props)=>{
 	
-	const activeZoom = () => {}//zoomToggle(!zoomIsActive);
+	const activeZoom = () => {}; //zoomToggle(!zoomIsActive);
 
 	const chartConf=props.config || {};
 
@@ -38,27 +38,25 @@ export const ChartComponent = (props)=>{
 	  const onMouseMove = (e)=>{
 	  }
 
-	  const onMouseUp = (e)=>{
-	  
-	  }
-
-   
-
- 
-  	const zoomBack=()=>{
-	}
-
-	const calculateGraph=()=>{
-	}
-
+  	const onMouseUp = (e)=>{
   	
-	let dataProvider = props.dataProvider || [];
-		
-	const zoomStyle = {}
+  	};
 
-	let zoomCurrentStyle = {fontSize:"18px"}
-   
+    const zoomBack=()=>{
+    };
+
+    const calculateGraph=()=>{
+    };
+
+
+	let dataProvider = props.dataProvider || [];
+
+	const zoomStyle = {};
+
+	let zoomCurrentStyle = {fontSize:"18px"};
+
     const margin = chartEleConf.margin || {top: 10, right: 20, left: 40, bottom:100};
+
     const title = chartEleConf.title || ""
     const layout= chartEleConf.layout || "horizontal" 
 
@@ -116,4 +114,4 @@ export const ChartComponent = (props)=>{
 			</Container>
 			)
 }
-export default ChartComponent
+export default ChartComponent;
