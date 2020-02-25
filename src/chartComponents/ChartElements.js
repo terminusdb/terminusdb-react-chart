@@ -1,16 +1,17 @@
 import React from 'react';
 import XAxisLabel from './XAxisLabel'
+import moment from 'moment'
 
 import ChartPointLabel from './ChartPointLabel'
 import  {ResponsiveContainer, Rectangle,Surface,
 	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
-	     CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
+	     CartesianGrid, Tooltip, Legend, Bar,Cell} from  "recharts";
 
  const ChartElements= (graphConf,dataProvider) =>{
- 	
+ 		
 		const getVariable=(variables)=>{
 			let value=null;
-			if(variables.length>0){
+			if(variables && variables.length>0){
 				value=variables[0];
 			}
 			return value
@@ -21,26 +22,37 @@ import  {ResponsiveContainer, Rectangle,Surface,
 			if(item.strokeWidth) style['strokeWidth']=item.strokeWidth;
 			if(item.stroke) style['stroke']=item.stroke;
 			if(item.fill) style['fill']=item.fill;
+			if(item.fillOpacity) style['fillOpacity']=item.fillOpacity;
+				//if(item.opacity) style['opacity']=item.opacity;
 
 			return style;
 		}
 
 		const filterTicks=(dataProvider,xAxisName)=>{
-	  	 	let ticks=[];
-		 	//const xAxis=this.graphConf.XAxis && this.graphConf.XAxis.dataKey || 'timestamp';
-
+	  	 	let ticks=[]; //{};
 	  	 	dataProvider.forEach((data,index)=>{
-	  	 	//if(index===0 && index===(dataProvider.length-1)){
-	  	 	//	ticks.push(data.timestamp);
-	  	 	//}else if(data.date_i && data.date_i.endsWith('01')){
-	  	 			ticks.push(data[xAxisName]);
-	  	 	//}
+	  	 		ticks.push(data[xAxisName]);
+
+	  	 		//ticks[data[xAxisName]]=data[xAxisName];
 	  	 	})
 
-	  	 	return ticks;
+	  	 	return ticks //Object.keys(ticks)
   		}
 
-  		
+  		const payloadFormatter = (value,name,props)=>{
+  	 		return value
+   		};
+
+  		const getAxisProps=(rule,dataKey)=>{
+  			const AxisProps={} 
+			if(rule.type)AxisProps['type']=rule.type
+			if(rule.padding)AxisProps['padding']=rule.padding;
+			if(rule.type==="number" && rule.domain===undefined)AxisProps['domain']=['dataMin - 1', 'dataMax  + 1']
+			if(dataKey) AxisProps['dataKey']=dataKey;
+
+			if(rule.type==="category")AxisProps['ticks']=filterTicks(dataProvider,dataKey);
+			return AxisProps;
+  		}
 
   		return graphConf.map((item,index)=>{
   			    const pattern =item.pattern || {}
@@ -53,24 +65,47 @@ import  {ResponsiveContainer, Rectangle,Surface,
 				const style = getStyle(rule);
 				const dot  = rule.dot || false;
 				const dotR = rule.dotR || 15
+				const customColors=rule.customColors;
+				const colorEntry=rule.colorEntry;
 
 				const activeDot ={r : dotR}
 
 
 				switch(chartType){
+					case 'Tooltip':
+						return  <Tooltip formatter={payloadFormatter}/>
+					case 'YAxis':
+						const yAxisProps=getAxisProps(rule,dataKey);	
+						return <YAxis allowDuplicatedCategory={true} {...yAxisProps} tick={<XAxisLabel yOffset={0} rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>} />
 					case 'XAxis':
-						const xAxisType=rule.type ? rule.type : 'category'
-    					const labelRotate=rule.labelRotate ? rule.labelRotate : null
-    					const ticks=filterTicks(dataProvider,dataKey);
-    					const padding=rule.padding ? rule.padding : { left: 0, right: 0 }
-    					
-						return <XAxis dataKey={dataKey} type={xAxisType} padding={padding}
-				       		  	tick={<XAxisLabel rotate={labelRotate}/>} 
-				       		  	ticks={ticks}
-				       		  	domain={['dataMin - 1', 'dataMax  + 1']}/>
+
+						/*const formatterLabel=(value)=>{
+							 if(rule.labelDateOutput){
+						      const mom=moment(value)
+						      value=mom.format(rule.labelDateOutput)
+						    }
+						    return value; formatter={formatterLabel} tickFormatter={formatterLabel}
+						}*/
+
+					   //
+						const xAxisProps=getAxisProps(rule,dataKey);		
+						return <XAxis  {...xAxisProps}  tick={<XAxisLabel rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>}
+									/>
 					case 'Bar':
-						const barSize = rule.barSize || 20
-						return dataKey &&  <Bar dataKey={dataKey} {...style} barSize={barSize} />
+						const stackId= rule.stackId ? {stackId:stackId} : {}
+ 						const barSize = rule.barSize || 2;//barSize={barSize}
+
+						return dataKey &&  <Bar  name={name} dataKey={dataKey}  {...style}  barSize={barSize} >
+												{customColors && colorEntry && dataProvider.map((entry, index) => {
+												   const entryValue=entry[colorEntry];
+												   const currentColor=customColors[entryValue] ? customColors[entryValue] : '#ffff00' 
+										           return<Cell stroke={currentColor} fill={currentColor}/>
+										        })}
+										   </Bar>
+					case 'Legend':
+						const payload= rule.payload ? {payload:rule.payload} : {}
+
+						return <Legend  verticalAlign="top" {...payload} height={50} />
 					case 'Area':
 						return dataKey && <Area name={name} type={type} dataKey={dataKey} {...style} />
 					case 'Point':
@@ -80,7 +115,5 @@ import  {ResponsiveContainer, Rectangle,Surface,
 						return dataKey && <Line  label={<ChartPointLabel/>} type="basisClosed" name={name} type={type} dataKey={dataKey} {...style} dot={dot}/>
 				}
 	    })
-
-
  }
  export default ChartElements;
