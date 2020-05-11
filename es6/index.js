@@ -6,10 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "ChartComponent", {
   enumerable: true,
   get: function get() {
-    return _ChartComponent2["default"];
+    return _ChartComponent.ChartComponent;
   }
 });
 
-var _ChartComponent2 = _interopRequireDefault(require("./ChartComponent"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _ChartComponent = require("./ChartComponent");

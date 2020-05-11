@@ -1,24 +1,25 @@
 import React , {useState} from 'react';
 import { Container} from "reactstrap";
-import ChartElements from "./chartComponents/ChartElements"
+import ChartElements from "./chartComponents/ChartElements";
 
-import  {ResponsiveContainer, Rectangle,Surface,
+import  {ResponsiveContainer, Rectangle,Surface,BarChart,
 	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
 	     CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
 
-import XAxisLabel from './chartComponents/XAxisLabel'
-import SelectableLegendItem from './chartComponents/SelectableLegendItem'
+import XAxisLabel from './chartComponents/XAxisLabel';
+import SelectableLegendItem from './chartComponents/SelectableLegendItem';
 
-import ZoomSelection from './chartComponents/ZoomSelection'
+import ZoomSelection from './chartComponents/ZoomSelection';
 
 import { SizeMe } from 'react-sizeme';
-import ChartPointLabel from './chartComponents/ChartPointLabel'
+import ChartPointLabel from './chartComponents/ChartPointLabel';
 
 import LegendComponent from './chartComponents/LegendComponent'
+import moment from 'moment'
 
 export const ChartComponent = (props)=>{
 	
-	const activeZoom = () => {}//zoomToggle(!zoomIsActive);
+	const activeZoom = () => {}; //zoomToggle(!zoomIsActive);
 
 	const chartConf=props.config || {};
 
@@ -31,36 +32,52 @@ export const ChartComponent = (props)=>{
 
   	}
 
-  const onMouseDown=(e)=>{
-  }
+	 const onMouseDown=(e)=>{
+	 }
 
-  const onMouseMove = (e)=>{
-  }
+	  const onMouseMove = (e)=>{
+	  }
 
-  const onMouseUp = (e)=>{
-  
-  }
-
-   const payloadFormatter = (value,name,props)=>{
-  	 return value
-   };
-
- 
-  	const zoomBack=()=>{
-	}
-
-	const calculateGraph=()=>{
-	}
-
+  	const onMouseUp = (e)=>{
   	
-	let dataProvider = props.dataProvider || [];
-		
-	const zoomStyle = {}
+  	};
 
-	let zoomCurrentStyle = {fontSize:"18px"}
-   
+    const zoomBack=()=>{
+    };
+
+    const calculateGraph=()=>{
+    };
+
+
+	let dataProvider = props.dataProvider || [];
+
+	const zoomStyle = {};
+
+	let zoomCurrentStyle = {fontSize:"18px"};
+
     const margin = chartEleConf.margin || {top: 10, right: 20, left: 40, bottom:100};
+
     const title = chartEleConf.title || ""
+    const layout= chartEleConf.layout || "horizontal" 
+
+    const payload=[{color:"#ff0000",value:"MY TEST",type: "rect"}]
+
+    const payloadFormatter = (value,name,props)=>{
+    		/*
+    		*to be review  ["formatted value", "formatted name"， ]
+    		*/
+    		let label=[]
+    		if(name==="Promotion"){
+    		 	const mom=moment(value[0])
+			 	const startValue=mom.format("YYYY-MM-DD")
+			 	const mom01=moment(value[1])
+			 	const endValue=mom01.format("YYYY-MM-DD")
+			 	label=[`${startValue} - ${endValue}`,name]
+    		}else{
+    			label=[value,name]
+    		}
+  	 		return label
+   		};
 
 	return(<Container style={{height:"500px"}} fluid className="border">
           	<h4 >{title}</h4>
@@ -74,28 +91,27 @@ export const ChartComponent = (props)=>{
 				  </div>
 			  </div>
 
-			  <SizeMe monitorHeight={true}>{({ size }) =>
+			 	<SizeMe monitorHeight={true}>{({ size }) =>
 			  	<div className="zoomDivContainer">
-				 <ResponsiveContainer height={size.height} width={size.width} aspect={size.width/size.height} >
-					<ComposedChart					
+				
+					<ComposedChart layout={layout}	height={size.height} width={size.width}				    			
 						data={dataProvider}
 						onMouseDown={onMouseDown}
 						onMouseUp={onMouseUp}
 						onMouseMove={onMouseMove}
 			            margin={margin}>
 			            
-				      	{ChartElements(chartRules,dataProvider)}
-				       <YAxis/>
-				       <CartesianGrid strokeDasharray="3 3"/>
-				       <Tooltip  labelFormatter={payloadFormatter}/>
-			      	   <Legend wrapperStyle={{ top: '-45px' }} iconType="rectangle"  content={<LegendComponent />} />
+				      	{ChartElements(chartRules,dataProvider)}				       
+				       <CartesianGrid strokeDasharray="1 3"/>
+				       <Tooltip  formatter={payloadFormatter}/>
+			      	   
 			      </ComposedChart>
-			     </ResponsiveContainer>
+			     
 			    <div className="zoomDiv" style={zoomStyle} height="500px" onMouseUp={onMouseUp}/>
 				</div>}
-			</SizeMe>
+			</SizeMe>	
 			</div>
 			</Container>
 			)
 }
-export default ChartComponent
+export default ChartComponent;

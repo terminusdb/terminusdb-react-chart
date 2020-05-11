@@ -9,6 +9,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _XAxisLabel = _interopRequireDefault(require("./XAxisLabel"));
 
+var _moment = _interopRequireDefault(require("moment"));
+
 var _ChartPointLabel = _interopRequireDefault(require("./ChartPointLabel"));
 
 var _recharts = require("recharts");
@@ -27,7 +29,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
   var getVariable = function getVariable(variables) {
     var value = null;
 
-    if (variables.length > 0) {
+    if (variables && variables.length > 0) {
       value = variables[0];
     }
 
@@ -42,19 +44,32 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
     if (item.strokeWidth) style['strokeWidth'] = item.strokeWidth;
     if (item.stroke) style['stroke'] = item.stroke;
     if (item.fill) style['fill'] = item.fill;
+    if (item.fillOpacity) style['fillOpacity'] = item.fillOpacity; //if(item.opacity) style['opacity']=item.opacity;
+
     return style;
   };
 
   var filterTicks = function filterTicks(dataProvider, xAxisName) {
-    var ticks = []; //const xAxis=this.graphConf.XAxis && this.graphConf.XAxis.dataKey || 'timestamp';
+    var ticks = []; //{};
 
     dataProvider.forEach(function (data, index) {
-      //if(index===0 && index===(dataProvider.length-1)){
-      //	ticks.push(data.timestamp);
-      //}else if(data.date_i && data.date_i.endsWith('01')){
-      ticks.push(data[xAxisName]); //}
+      ticks.push(data[xAxisName]); //ticks[data[xAxisName]]=data[xAxisName];
     });
-    return ticks;
+    return ticks; //Object.keys(ticks)
+  };
+
+  var payloadFormatter = function payloadFormatter(value, name, props) {
+    return value;
+  };
+
+  var getAxisProps = function getAxisProps(rule, dataKey) {
+    var AxisProps = {};
+    if (rule.type) AxisProps['type'] = rule.type;
+    if (rule.padding) AxisProps['padding'] = rule.padding;
+    if (rule.type === "number" && rule.domain === undefined) AxisProps['domain'] = ['dataMin - 1', 'dataMax  + 1'];
+    if (dataKey) AxisProps['dataKey'] = dataKey;
+    if (rule.type === "category") AxisProps['ticks'] = filterTicks(dataProvider, dataKey);
+    return AxisProps;
   };
 
   return graphConf.map(function (item, index) {
@@ -69,36 +84,75 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
     var style = getStyle(rule);
     var dot = rule.dot || false;
     var dotR = rule.dotR || 15;
+    var customColors = rule.customColors;
+    var colorEntry = rule.colorEntry;
     var activeDot = {
       r: dotR
     };
 
     switch (chartType) {
-      case 'XAxis':
-        var xAxisType = rule.type ? rule.type : 'category';
-        var labelRotate = rule.labelRotate ? rule.labelRotate : null;
-        var ticks = filterTicks(dataProvider, dataKey);
-        var padding = rule.padding ? rule.padding : {
-          left: 0,
-          right: 0
-        };
-        return _react["default"].createElement(_recharts.XAxis, {
-          dataKey: dataKey,
-          type: xAxisType,
-          padding: padding,
-          tick: _react["default"].createElement(_XAxisLabel["default"], {
-            rotate: labelRotate
-          }),
-          ticks: ticks,
-          domain: ['dataMin - 1', 'dataMax  + 1']
+      case 'Tooltip':
+        return _react["default"].createElement(_recharts.Tooltip, {
+          formatter: payloadFormatter
         });
 
+      case 'YAxis':
+        var yAxisProps = getAxisProps(rule, dataKey);
+        return _react["default"].createElement(_recharts.YAxis, _extends({
+          allowDuplicatedCategory: true
+        }, yAxisProps, {
+          tick: _react["default"].createElement(_XAxisLabel["default"], {
+            yOffset: 0,
+            rotate: rule.labelRotate,
+            labelDateOutput: rule.labelDateOutput
+          })
+        }));
+
+      case 'XAxis':
+        /*const formatterLabel=(value)=>{
+        	 if(rule.labelDateOutput){
+              const mom=moment(value)
+              value=mom.format(rule.labelDateOutput)
+            }
+            return value; formatter={formatterLabel} tickFormatter={formatterLabel}
+        }*/
+        //
+        var xAxisProps = getAxisProps(rule, dataKey);
+        return _react["default"].createElement(_recharts.XAxis, _extends({}, xAxisProps, {
+          tick: _react["default"].createElement(_XAxisLabel["default"], {
+            rotate: rule.labelRotate,
+            labelDateOutput: rule.labelDateOutput
+          })
+        }));
+
       case 'Bar':
-        var barSize = rule.barSize || 20;
+        var stackId = rule.stackId ? {
+          stackId: stackId
+        } : {};
+        var barSize = rule.barSize || 2; //barSize={barSize}
+
         return dataKey && _react["default"].createElement(_recharts.Bar, _extends({
+          name: name,
           dataKey: dataKey
         }, style, {
           barSize: barSize
+        }), customColors && colorEntry && dataProvider.map(function (entry, index) {
+          var entryValue = entry[colorEntry];
+          var currentColor = customColors[entryValue] ? customColors[entryValue] : '#ffff00';
+          return _react["default"].createElement(_recharts.Cell, {
+            stroke: currentColor,
+            fill: currentColor
+          });
+        }));
+
+      case 'Legend':
+        var payload = rule.payload ? {
+          payload: rule.payload
+        } : {};
+        return _react["default"].createElement(_recharts.Legend, _extends({
+          verticalAlign: "top"
+        }, payload, {
+          height: 50
         }));
 
       case 'Area':

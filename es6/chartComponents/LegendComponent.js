@@ -9,20 +9,33 @@ var _react = _interopRequireDefault(require("react"));
 
 var _SelectableLegendItem = _interopRequireDefault(require("./SelectableLegendItem"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _recharts = require("recharts");
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var LegendComponent = function LegendComponent(props) {
   var graphConf = props.chartObj || [];
+  var payload = props.payload;
   return _react["default"].createElement("div", {
     className: "customized-legend"
-  }, graphConf.map(function (entry, index) {
-    return _react["default"].createElement(_SelectableLegendItem["default"], _extends({
-      key: 'legend_' + index
-    }, entry, {
-      chartName: "LINE_CHART_OBJ"
-    }));
+  }, payload.map(function (entry, index) {
+    var color = entry.color;
+    return _react["default"].createElement("span", {
+      className: "legend-item"
+    }, _react["default"].createElement(_recharts.Surface, {
+      width: 10,
+      height: 10
+    }, _react["default"].createElement(_recharts.Symbols, {
+      cx: 5,
+      cy: 5,
+      type: "circle",
+      size: 100,
+      fill: color
+    })), _react["default"].createElement("span", {
+      style: {
+        marginLeft: '5px'
+      }
+    }, entry.value));
   }));
 };
 

@@ -7,9 +7,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _moment = _interopRequireDefault(require("moment"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -29,7 +31,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-//import {timeConverter} from '../../utils/utils'
 var XAxisLabel =
 /*#__PURE__*/
 function (_React$Component) {
@@ -49,9 +50,17 @@ function (_React$Component) {
           y = _this$props.y,
           stroke = _this$props.stroke,
           payload = _this$props.payload,
-          rotate = _this$props.rotate; //const label=timeConverter(payload.value,'simple');
-
+          rotate = _this$props.rotate,
+          labelDateOutput = _this$props.labelDateOutput,
+          yOffset = _this$props.yOffset;
       var label = payload.value;
+      var dy = yOffset !== undefined ? yOffset : 16;
+
+      if (labelDateOutput) {
+        var mom = (0, _moment["default"])(label);
+        label = mom.format(labelDateOutput);
+      }
+
       var transform = rotate ? {
         transform: "rotate(".concat(rotate, ")")
       } : {};
@@ -60,7 +69,7 @@ function (_React$Component) {
       }, _react["default"].createElement("text", _extends({
         x: 0,
         y: 0,
-        dy: 16,
+        dy: dy,
         textAnchor: "end",
         fill: "#666"
       }, transform), label));
