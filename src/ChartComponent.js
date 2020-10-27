@@ -69,15 +69,21 @@ export const ChartComponent = (props)=>{
     		let label=[]
     		if(name==="Promotion"){
     		 	const mom=moment(value[0])
-			 	const startValue=mom.format("YYYY-MM-DD")
+			 	const startValue=mom.format("YYYY-MM-DD ddd")
 			 	const mom01=moment(value[1])
-			 	const endValue=mom01.format("YYYY-MM-DD")
+			 	const endValue=mom01.format("YYYY-MM-DD ddd")
 			 	label=[`${startValue} - ${endValue}`,name]
     		}else{
     			label=[value,name]
     		}
+    		console.log(label);
   	 		return label
-   		};
+   	};
+
+   	const axisLabelFormatter = (axisLabel)=>{
+   		const mom=moment(axisLabel)
+   		return mom.format("YYYY-MM-DD ddd")
+   	}
 
 	return(<Container style={{height:"500px"}} fluid className="border">
           	<h4 >{title}</h4>
@@ -103,7 +109,7 @@ export const ChartComponent = (props)=>{
 			            
 				      	{ChartElements(chartRules,dataProvider)}				       
 				       <CartesianGrid strokeDasharray="1 3"/>
-				       <Tooltip  formatter={payloadFormatter}/>
+				      <Tooltip  labelFormatter={axisLabelFormatter} formatter={payloadFormatter}/>
 			      	   
 			      </ComposedChart>
 			     
@@ -114,4 +120,5 @@ export const ChartComponent = (props)=>{
 			</Container>
 			)
 }
+// <Tooltip  formatter={payloadFormatter}/>
 export default ChartComponent;

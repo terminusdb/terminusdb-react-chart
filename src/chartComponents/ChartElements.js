@@ -90,7 +90,8 @@ import  {ResponsiveContainer, Rectangle,Surface,
 					   //
 						const xAxisProps=getAxisProps(rule,dataKey);		
 						return <XAxis  {...xAxisProps}  tick={<XAxisLabel rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>}
-									/>
+						
+						/>
 					case 'Bar':
 						const stackId= rule.stackId ? {stackId:stackId} : {}
  						const barSize = rule.barSize || 2;//barSize={barSize}

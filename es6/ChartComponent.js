@@ -84,15 +84,21 @@ var ChartComponent = function ChartComponent(props) {
 
     if (name === "Promotion") {
       var mom = (0, _moment["default"])(value[0]);
-      var startValue = mom.format("YYYY-MM-DD");
+      var startValue = mom.format("YYYY-MM-DD ddd");
       var mom01 = (0, _moment["default"])(value[1]);
-      var endValue = mom01.format("YYYY-MM-DD");
+      var endValue = mom01.format("YYYY-MM-DD ddd");
       label = ["".concat(startValue, " - ").concat(endValue), name];
     } else {
       label = [value, name];
     }
 
+    console.log(label);
     return label;
+  };
+
+  var axisLabelFormatter = function axisLabelFormatter(axisLabel) {
+    var mom = (0, _moment["default"])(axisLabel);
+    return mom.format("YYYY-MM-DD ddd");
   };
 
   return _react["default"].createElement(_reactstrap.Container, {
@@ -144,6 +150,7 @@ var ChartComponent = function ChartComponent(props) {
     }, (0, _ChartElements["default"])(chartRules, dataProvider), _react["default"].createElement(_recharts.CartesianGrid, {
       strokeDasharray: "1 3"
     }), _react["default"].createElement(_recharts.Tooltip, {
+      labelFormatter: axisLabelFormatter,
       formatter: payloadFormatter
     })), _react["default"].createElement("div", {
       className: "zoomDiv",
@@ -152,7 +159,8 @@ var ChartComponent = function ChartComponent(props) {
       onMouseUp: onMouseUp
     }));
   })));
-};
+}; // <Tooltip  formatter={payloadFormatter}/>
+
 
 exports.ChartComponent = ChartComponent;
 var _default = ChartComponent;
