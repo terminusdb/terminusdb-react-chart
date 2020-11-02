@@ -81,10 +81,12 @@ export const ChartComponent = (props)=>{
   	 		return label
    	};
 
-   	const axisLabelFormatter = (axisLabel)=>{
+   	/*const axisLabelFormatter = (axisLabel)=>{
    		const mom=moment(axisLabel)
    		return mom.format("YYYY-MM-DD ddd")
-   	}
+   	}*/
+
+
 
 	return(<Container style={{height:"500px"}} fluid className="border">
           	<h4 >{title}</h4>
@@ -110,7 +112,7 @@ export const ChartComponent = (props)=>{
 			            
 				      	{ChartElements(chartRules,dataProvider)}				       
 				       <CartesianGrid strokeDasharray="1 3"/>
-				      <Tooltip  labelFormatter={axisLabelFormatter} formatter={payloadFormatter}/>
+				      <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
 			      	   
 			      </ComposedChart>
 			     
@@ -119,7 +121,7 @@ export const ChartComponent = (props)=>{
 			</SizeMe>	
 			</div>
 			</Container>
-			)
+			)//
 }
-// <Tooltip  formatter={payloadFormatter}/>
+// <Tooltip  formatter={payloadFormatter}/>//
 export default ChartComponent;

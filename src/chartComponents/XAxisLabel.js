@@ -3,14 +3,13 @@ import moment from 'moment';
 
 export default class XAxisLabel extends React.Component  {
   
-  
   render () {
     const {x, y, stroke, payload, rotate, labelDateOutput, yOffset} = this.props;
 
     let label=payload.value;
     let dy= yOffset!==undefined ? yOffset : 16
 
-    if(labelDateOutput){
+    if(labelDateOutput && label){
       const mom=moment(label)
       label=mom.format(labelDateOutput)
     }

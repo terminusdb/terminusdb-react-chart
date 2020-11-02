@@ -95,11 +95,11 @@ var ChartComponent = function ChartComponent(props) {
     console.log(label);
     return label;
   };
+  /*const axisLabelFormatter = (axisLabel)=>{
+  	const mom=moment(axisLabel)
+  	return mom.format("YYYY-MM-DD ddd")
+  }*/
 
-  var axisLabelFormatter = function axisLabelFormatter(axisLabel) {
-    var mom = (0, _moment["default"])(axisLabel);
-    return mom.format("YYYY-MM-DD ddd");
-  };
 
   return _react["default"].createElement(_reactstrap.Container, {
     style: {
@@ -150,16 +150,16 @@ var ChartComponent = function ChartComponent(props) {
     }, (0, _ChartElements["default"])(chartRules, dataProvider), _react["default"].createElement(_recharts.CartesianGrid, {
       strokeDasharray: "1 3"
     }), _react["default"].createElement(_recharts.Tooltip, {
-      labelFormatter: axisLabelFormatter,
-      formatter: payloadFormatter
+      formatter: payloadFormatter,
+      labelFormatter: axisLabelFormatter
     })), _react["default"].createElement("div", {
       className: "zoomDiv",
       style: zoomStyle,
       height: "500px",
       onMouseUp: onMouseUp
     }));
-  })));
-}; // <Tooltip  formatter={payloadFormatter}/>
+  }))); //
+}; // <Tooltip  formatter={payloadFormatter}/>//
 
 
 exports.ChartComponent = ChartComponent;

@@ -56,7 +56,7 @@ function (_React$Component) {
       var label = payload.value;
       var dy = yOffset !== undefined ? yOffset : 16;
 
-      if (labelDateOutput) {
+      if (labelDateOutput && label) {
         var mom = (0, _moment["default"])(label);
         label = mom.format(labelDateOutput);
       }
