@@ -32,10 +32,11 @@ export const ChartComponent = (props)=>{
 
   	}
 
-	 const onMouseDown=(e)=>{
-	 }
+	const onMouseDown=(e)=>{
+	
+	}
 
-	  const onMouseMove = (e)=>{
+	const onMouseMove = (e)=>{
 	  }
 
   	const onMouseUp = (e)=>{
