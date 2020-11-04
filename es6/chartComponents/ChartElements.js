@@ -92,10 +92,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
     };
 
     switch (chartType) {
-      case 'Tooltip':
-        return _react["default"].createElement(_recharts.Tooltip, {
-          formatter: payloadFormatter
-        });
+      case 'Tooltip': //return  <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
 
       case 'YAxis':
         var labelEl = rule.label ? {
@@ -110,7 +107,9 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
           }, rule.label)
         } : {};
         var yAxisProps = getAxisProps(rule, dataKey);
-        return _react["default"].createElement(_recharts.YAxis, _extends({}, labelEl, {
+        return _react["default"].createElement(_recharts.YAxis, _extends({
+          key: "yA__".concat(index)
+        }, labelEl, {
           allowDuplicatedCategory: true
         }, yAxisProps, {
           tick: _react["default"].createElement(_XAxisLabel["default"], {
@@ -130,7 +129,9 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
         }*/
         //
         var xAxisProps = getAxisProps(rule, dataKey);
-        return _react["default"].createElement(_recharts.XAxis, _extends({}, xAxisProps, {
+        return _react["default"].createElement(_recharts.XAxis, _extends({
+          key: "xA__".concat(index)
+        }, xAxisProps, {
           tick: _react["default"].createElement(_XAxisLabel["default"], {
             rotate: rule.labelRotate,
             labelDateOutput: rule.labelDateOutput
@@ -144,6 +145,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
         var barSize = rule.barSize || 2; //barSize={barSize}
 
         return dataKey && _react["default"].createElement(_recharts.Bar, _extends({
+          key: "bar__".concat(index),
           name: name,
           dataKey: dataKey
         }, style, {
@@ -162,6 +164,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
           payload: rule.payload
         } : {};
         return _react["default"].createElement(_recharts.Legend, _extends({
+          key: "leg__".concat(index),
           verticalAlign: "top"
         }, payload, {
           height: 50
@@ -169,6 +172,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
 
       case 'Area':
         return dataKey && _react["default"].createElement(_recharts.Area, _extends({
+          key: "area__".concat(index),
           name: name,
           type: type,
           dataKey: dataKey
@@ -176,6 +180,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
 
       case 'Point':
         return dataKey && _react["default"].createElement(_recharts.Line, {
+          key: "line__".concat(index),
           name: name,
           type: type,
           dataKey: dataKey,
@@ -187,6 +192,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
       case 'Line':
       default:
         return dataKey && _react["default"].createElement(_recharts.Line, _extends((_extends2 = {
+          key: "line__".concat(index),
           label: _react["default"].createElement(_ChartPointLabel["default"], null),
           type: "basisClosed",
           name: name
