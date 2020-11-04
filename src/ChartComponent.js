@@ -81,12 +81,10 @@ export const ChartComponent = (props)=>{
   	 		return label
    	};
 
-   	/*const axisLabelFormatter = (axisLabel)=>{
+   	const axisLabelFormatter = (axisLabel)=>{
    		const mom=moment(axisLabel)
    		return mom.format("YYYY-MM-DD ddd")
-   	}*/
-
-
+   	}
 
 	return(<Container style={{height:"500px"}} fluid className="border">
           	<h4 >{title}</h4>

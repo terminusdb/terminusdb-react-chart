@@ -95,11 +95,11 @@ var ChartComponent = function ChartComponent(props) {
     console.log(label);
     return label;
   };
-  /*const axisLabelFormatter = (axisLabel)=>{
-  	const mom=moment(axisLabel)
-  	return mom.format("YYYY-MM-DD ddd")
-  }*/
 
+  var axisLabelFormatter = function axisLabelFormatter(axisLabel) {
+    var mom = (0, _moment["default"])(axisLabel);
+    return mom.format("YYYY-MM-DD ddd");
+  };
 
   return _react["default"].createElement(_reactstrap.Container, {
     style: {
