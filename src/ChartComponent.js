@@ -81,10 +81,10 @@ export const ChartComponent = (props)=>{
   	 		return label
    	};
 
-   	/*const axisLabelFormatter = (axisLabel)=>{
+   	const axisLabelFormatter = (axisLabel)=>{
    		const mom=moment(axisLabel)
    		return mom.format("YYYY-MM-DD ddd")
-   	}*/
+   	}
 
 
 
