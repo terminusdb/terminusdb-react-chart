@@ -137,7 +137,10 @@ var ChartComponent = function ChartComponent(props) {
   }, function (_ref) {
     var size = _ref.size;
     return _react["default"].createElement("div", {
-      className: "zoomDivContainer"
+      className: "zoomDivContainer",
+      style: {
+        zIndex: -30
+      }
     }, _react["default"].createElement(_recharts.ComposedChart, {
       layout: layout,
       height: size.height,

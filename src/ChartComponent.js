@@ -3,7 +3,7 @@ import { Container} from "reactstrap";
 import ChartElements from "./chartComponents/ChartElements";
 
 import  {ResponsiveContainer, Rectangle,Surface,BarChart,
-	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
+	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,AxisLabel,
 	     CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
 
 import XAxisLabel from './chartComponents/XAxisLabel';
@@ -99,7 +99,7 @@ export const ChartComponent = (props)=>{
 			  </div>
 
 			 	<SizeMe monitorHeight={true}>{({ size }) =>
-			  	<div className="zoomDivContainer">
+			  	<div className="zoomDivContainer" style={{zIndex:-30}}>
 				
 					<ComposedChart layout={layout}	height={size.height} width={size.width}				    			
 						data={dataProvider}
@@ -109,7 +109,7 @@ export const ChartComponent = (props)=>{
 			            margin={margin}>
 			            
 				      	{ChartElements(chartRules,dataProvider)}				       
-				       <CartesianGrid strokeDasharray="1 3"/>
+				       <CartesianGrid strokeDasharray="1 3"/>				    
 				      <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
 			      	   
 			      </ComposedChart>

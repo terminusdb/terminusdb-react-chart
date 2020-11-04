@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import ChartPointLabel from './ChartPointLabel'
 import  {ResponsiveContainer, Rectangle,Surface,
-	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
+	     Symbols,ComposedChart, Line, Area, XAxis, YAxis, AxisLabel,
 	     CartesianGrid, Tooltip, Legend, Bar,Cell} from  "recharts";
 
  const ChartElements= (graphConf,dataProvider) =>{
@@ -44,10 +44,11 @@ import  {ResponsiveContainer, Rectangle,Surface,
    		};
 
   		const getAxisProps=(rule,dataKey)=>{
-  			const AxisProps={} 
-			if(rule.type)AxisProps['type']=rule.type
+  			const AxisProps={}
+  			if(rule.type)AxisProps['type']=rule.type
 			if(rule.padding)AxisProps['padding']=rule.padding;
 			if(rule.type==="number" && rule.domain===undefined)AxisProps['domain']=['dataMin - 1', 'dataMax  + 1']
+			if(rule.domain) AxisProps['domain']=rule.domain;
 			if(dataKey) AxisProps['dataKey']=dataKey;
 
 			if(rule.type==="category")AxisProps['ticks']=filterTicks(dataProvider,dataKey);
@@ -75,8 +76,10 @@ import  {ResponsiveContainer, Rectangle,Surface,
 					case 'Tooltip':
 						return  <Tooltip formatter={payloadFormatter}/>
 					case 'YAxis':
-						const yAxisProps=getAxisProps(rule,dataKey);	
-						return <YAxis allowDuplicatedCategory={true} {...yAxisProps} tick={<XAxisLabel yOffset={0} rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>} />
+						const labelEl = rule.label ? {label:<text id="mylabel" x="0" y="0" dx="-150" dy="20" offset="5" transform="rotate(-90)">{rule.label}</text>} : {}
+						const yAxisProps=getAxisProps(rule,dataKey);
+						
+						return <YAxis {...labelEl} allowDuplicatedCategory={true} {...yAxisProps}  tick={<XAxisLabel yOffset={0} rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>} />
 					case 'XAxis':
 
 						/*const formatterLabel=(value)=>{

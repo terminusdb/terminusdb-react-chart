@@ -11,7 +11,9 @@ export default class XAxisLabel extends React.Component  {
 
     if(labelDateOutput && label){
       const mom=moment(label)
-      label=mom.format(labelDateOutput)
+      if(mom.format(labelDateOutput)!==undefined){
+         label=mom.format(labelDateOutput)
+      }
     }
     
     const transform = rotate ? {transform:`rotate(${rotate})`} : {};

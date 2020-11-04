@@ -58,7 +58,10 @@ function (_React$Component) {
 
       if (labelDateOutput && label) {
         var mom = (0, _moment["default"])(label);
-        label = mom.format(labelDateOutput);
+
+        if (mom.format(labelDateOutput) !== undefined) {
+          label = mom.format(labelDateOutput);
+        }
       }
 
       var transform = rotate ? {
