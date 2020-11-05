@@ -92,7 +92,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
     };
 
     switch (chartType) {
-      case 'Tooltip': //return  <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
+      case 'Tooltip': // return <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
 
       case 'YAxis':
         var labelEl = rule.label ? {

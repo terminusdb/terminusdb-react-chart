@@ -74,7 +74,7 @@ import  {ResponsiveContainer, Rectangle,Surface,
 
 				switch(chartType){
 					case 'Tooltip':
-						//return  <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
+						// return <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
 					case 'YAxis':
 						const labelEl = rule.label ? {label:<text id="mylabel" x="0" y="0" dx="-150" dy="20" offset="5" transform="rotate(-90)">{rule.label}</text>} : {}
 						const yAxisProps=getAxisProps(rule,dataKey);

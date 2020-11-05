@@ -99,7 +99,7 @@ export const ChartComponent = (props)=>{
 			  </div>
 
 			 	<SizeMe monitorHeight={true}>{({ size }) =>
-			  	<div className="zoomDivContainer" style={{zIndex:-30}}>
+			  	<div className="zoomDivContainer" >
 				
 					<ComposedChart layout={layout}	height={size.height} width={size.width}				    			
 						data={dataProvider}
