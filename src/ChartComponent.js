@@ -18,13 +18,13 @@ import LegendComponent from './chartComponents/LegendComponent'
 import moment from 'moment'
 
 export const ChartComponent = (props)=>{
-	
+
 	const activeZoom = () => {}; //zoomToggle(!zoomIsActive);
 
 	const chartConf=props.config || {};
 
 	const chartRules=chartConf.rules || [];
-  	
+
  	const chartEleConf=chartConf.chart || {};
 
 	const onWheel=(e)=>{
@@ -33,14 +33,14 @@ export const ChartComponent = (props)=>{
   	}
 
 	const onMouseDown=(e)=>{
-	
+
 	}
 
 	const onMouseMove = (e)=>{
 	  }
 
   	const onMouseUp = (e)=>{
-  	
+
   	};
 
     const zoomBack=()=>{
@@ -59,7 +59,7 @@ export const ChartComponent = (props)=>{
     const margin = chartEleConf.margin || {top: 10, right: 20, left: 40, bottom:100};
 
     const title = chartEleConf.title || ""
-    const layout= chartEleConf.layout || "horizontal" 
+    const layout= chartEleConf.layout || "horizontal"
 
     const payload=[{color:"#ff0000",value:"MY TEST",type: "rect"}]
 
@@ -77,7 +77,6 @@ export const ChartComponent = (props)=>{
     		}else{
     			label=[value,name]
     		}
-    		console.log(label);
   	 		return label
    	};
 
@@ -102,23 +101,23 @@ export const ChartComponent = (props)=>{
 
 			 	<SizeMe monitorHeight={true}>{({ size }) =>
 			  	<div className="zoomDivContainer">
-				
-					<ComposedChart layout={layout}	height={size.height} width={size.width}				    			
+
+					<ComposedChart layout={layout}	height={size.height} width={size.width}
 						data={dataProvider}
 						onMouseDown={onMouseDown}
 						onMouseUp={onMouseUp}
 						onMouseMove={onMouseMove}
 			            margin={margin}>
-			            
-				      	{ChartElements(chartRules,dataProvider)}				       
+
+				      	{ChartElements(chartRules,dataProvider)}
 				       <CartesianGrid strokeDasharray="1 3"/>
 				      <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
-			      	   
+
 			      </ComposedChart>
-			     
+
 			    <div className="zoomDiv" style={zoomStyle} height="500px" onMouseUp={onMouseUp}/>
 				</div>}
-			</SizeMe>	
+			</SizeMe>
 			</div>
 			</Container>
 			)//
