@@ -77,7 +77,7 @@ export const ChartComponent = (props)=>{
     		}else{
     			label=[value,name]
     		}
-    		console.log(label);
+    		//console.log(label);
   	 		return label
    	};
 
