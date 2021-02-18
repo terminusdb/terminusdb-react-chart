@@ -1,7 +1,7 @@
 import React , {useState} from 'react';
 import { Container} from "reactstrap";
 import ChartElements from "./chartComponents/ChartElements";
-
+import {CustomTooltip} from "./chartComponents/CustomTooltip"
 import  {ResponsiveContainer, Rectangle,Surface,BarChart,
 	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,AxisLabel,
 	     CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
@@ -75,16 +75,30 @@ export const ChartComponent = (props)=>{
 			 	const endValue=mom01.format("YYYY-MM-DD ddd")
 			 	label=[`${startValue} - ${endValue}`,name]
     		}else{
+    			/*
+    			* if the name is a payload value I use that value as name
+    			*/
     			label=[value,name]
+    			if(props.payload[name]){
+    				const val=props.payload[name]
+    			    const keysObj=Object.keys(val);
+					const tmpArr=[]
+					keysObj.sort();
+    				let vv=''
+    				let n=''
+    				keysObj.forEach((key=>{
+    					vv=vv+key
+    					n=`${n} ${val[key]}`
+    				}))
+    				label=[vv,n]
+    			}
+    			
     		}
     		//console.log(label);
   	 		return label
    	};
 
-   	const axisLabelFormatter = (axisLabel)=>{
-   		const mom=moment(axisLabel)
-   		return mom.format("YYYY-MM-DD ddd")
-   	}
+   	
 
 	return(<Container style={{height:"500px"}} fluid className="border">
           	<h4 >{title}</h4>
@@ -110,8 +124,8 @@ export const ChartComponent = (props)=>{
 			            
 				      	{ChartElements(chartRules,dataProvider)}				       
 				       <CartesianGrid strokeDasharray="1 3"/>				    
-				      <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
-			      	   
+				     <Tooltip content={<CustomTooltip/>}/>
+				        
 			      </ComposedChart>
 			     
 			    <div className="zoomDiv" style={zoomStyle} height="500px" onMouseUp={onMouseUp}/>
@@ -121,5 +135,6 @@ export const ChartComponent = (props)=>{
 			</Container>
 			)//
 }
+// / <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
 // <Tooltip  formatter={payloadFormatter}/>//
 export default ChartComponent;

@@ -13,6 +13,8 @@ var _reactstrap = require("reactstrap");
 
 var _ChartElements = _interopRequireDefault(require("./chartComponents/ChartElements"));
 
+var _CustomTooltip = require("./chartComponents/CustomTooltip");
+
 var _recharts = require("recharts");
 
 var _XAxisLabel = _interopRequireDefault(require("./chartComponents/XAxisLabel"));
@@ -89,16 +91,28 @@ var ChartComponent = function ChartComponent(props) {
       var endValue = mom01.format("YYYY-MM-DD ddd");
       label = ["".concat(startValue, " - ").concat(endValue), name];
     } else {
+      /*
+      * if the name is a payload value I use that value as name
+      */
       label = [value, name];
-    }
 
-    console.log(label);
+      if (props.payload[name]) {
+        var val = props.payload[name];
+        var keysObj = Object.keys(val);
+        var tmpArr = [];
+        keysObj.sort();
+        var vv = '';
+        var n = '';
+        keysObj.forEach(function (key) {
+          vv = vv + key;
+          n = "".concat(n, " ").concat(val[key]);
+        });
+        label = [vv, n];
+      }
+    } //console.log(label);
+
+
     return label;
-  };
-
-  var axisLabelFormatter = function axisLabelFormatter(axisLabel) {
-    var mom = (0, _moment["default"])(axisLabel);
-    return mom.format("YYYY-MM-DD ddd");
   };
 
   return _react["default"].createElement(_reactstrap.Container, {
@@ -150,8 +164,7 @@ var ChartComponent = function ChartComponent(props) {
     }, (0, _ChartElements["default"])(chartRules, dataProvider), _react["default"].createElement(_recharts.CartesianGrid, {
       strokeDasharray: "1 3"
     }), _react["default"].createElement(_recharts.Tooltip, {
-      formatter: payloadFormatter,
-      labelFormatter: axisLabelFormatter
+      content: _react["default"].createElement(_CustomTooltip.CustomTooltip, null)
     })), _react["default"].createElement("div", {
       className: "zoomDiv",
       style: zoomStyle,
@@ -159,7 +172,8 @@ var ChartComponent = function ChartComponent(props) {
       onMouseUp: onMouseUp
     }));
   }))); //
-}; // <Tooltip  formatter={payloadFormatter}/>//
+}; // / <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
+// <Tooltip  formatter={payloadFormatter}/>//
 
 
 exports.ChartComponent = ChartComponent;

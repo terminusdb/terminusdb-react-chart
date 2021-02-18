@@ -95,14 +95,17 @@ import  {ResponsiveContainer, Rectangle,Surface,
 						return <XAxis key={`xA__${index}`} {...xAxisProps}  tick={<XAxisLabel rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>}
 						
 						/>
+					
+					/*
+					* multi color for the some property given an entryValue
+					*/
 					case 'Bar':
-						const stackId= rule.stackId ? {stackId:stackId} : {}
+						const stackId= rule.stackId ? {stackId:rule.stackId} : {}
  						const barSize = rule.barSize || 2;//barSize={barSize}
-
-						return dataKey &&  <Bar  key={`bar__${index}`} name={name} dataKey={dataKey}  {...style}  barSize={barSize} >
+						return dataKey &&  <Bar  {...stackId} key={`bar__${index}`} name={name} dataKey={dataKey}  {...style}  barSize={barSize} >					
 												{customColors && colorEntry && dataProvider.map((entry, index) => {
-												   const entryValue=entry[colorEntry];
-												   const currentColor=customColors[entryValue] ? customColors[entryValue] : '#ffff00' 
+												  const entryValue=entry[colorEntry];
+												  const currentColor=customColors[entryValue] ? customColors[entryValue] : '#ffff00' 
 										           return<Cell stroke={currentColor} fill={currentColor}/>
 										        })}
 										   </Bar>

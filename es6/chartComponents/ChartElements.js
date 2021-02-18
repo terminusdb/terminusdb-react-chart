@@ -138,13 +138,17 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
           })
         }));
 
+      /*
+      * multi color for the some property given an entryValue
+      */
+
       case 'Bar':
         var stackId = rule.stackId ? {
-          stackId: stackId
+          stackId: rule.stackId
         } : {};
         var barSize = rule.barSize || 2; //barSize={barSize}
 
-        return dataKey && _react["default"].createElement(_recharts.Bar, _extends({
+        return dataKey && _react["default"].createElement(_recharts.Bar, _extends({}, stackId, {
           key: "bar__".concat(index),
           name: name,
           dataKey: dataKey
