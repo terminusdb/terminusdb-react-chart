@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import ChartPointLabel from './ChartPointLabel'
 import  {ResponsiveContainer, Rectangle,Surface,
-	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
+	     Symbols,ComposedChart, Line, Area, XAxis, YAxis, AxisLabel,
 	     CartesianGrid, Tooltip, Legend, Bar,Cell} from  "recharts";
 
  const ChartElements= (graphConf,dataProvider) =>{
@@ -44,10 +44,11 @@ import  {ResponsiveContainer, Rectangle,Surface,
    		};
 
   		const getAxisProps=(rule,dataKey)=>{
-  			const AxisProps={} 
-			if(rule.type)AxisProps['type']=rule.type
+  			const AxisProps={}
+  			if(rule.type)AxisProps['type']=rule.type
 			if(rule.padding)AxisProps['padding']=rule.padding;
 			if(rule.type==="number" && rule.domain===undefined)AxisProps['domain']=['dataMin - 1', 'dataMax  + 1']
+			if(rule.domain) AxisProps['domain']=rule.domain;
 			if(dataKey) AxisProps['dataKey']=dataKey;
 
 			if(rule.type==="category")AxisProps['ticks']=filterTicks(dataProvider,dataKey);
@@ -73,10 +74,12 @@ import  {ResponsiveContainer, Rectangle,Surface,
 
 				switch(chartType){
 					case 'Tooltip':
-						return  <Tooltip formatter={payloadFormatter}/>
+						// return <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
 					case 'YAxis':
-						const yAxisProps=getAxisProps(rule,dataKey);	
-						return <YAxis allowDuplicatedCategory={true} {...yAxisProps} tick={<XAxisLabel yOffset={0} rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>} />
+						const labelEl = rule.label ? {label:<text id="mylabel" x="0" y="0" dx="-150" dy="20" offset="5" transform="rotate(-90)">{rule.label}</text>} : {}
+						const yAxisProps=getAxisProps(rule,dataKey);
+						
+						return <YAxis key={`yA__${index}`} {...labelEl} allowDuplicatedCategory={true} {...yAxisProps}  tick={<XAxisLabel yOffset={0} rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>} />
 					case 'XAxis':
 
 						/*const formatterLabel=(value)=>{
@@ -89,31 +92,34 @@ import  {ResponsiveContainer, Rectangle,Surface,
 
 					   //
 						const xAxisProps=getAxisProps(rule,dataKey);		
-						return <XAxis  {...xAxisProps}  tick={<XAxisLabel rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>}
+						return <XAxis key={`xA__${index}`} {...xAxisProps}  tick={<XAxisLabel rotate={rule.labelRotate} labelDateOutput={rule.labelDateOutput}/>}
 						
 						/>
+					
+					/*
+					* multi color for the some property given an entryValue
+					*/
 					case 'Bar':
-						const stackId= rule.stackId ? {stackId:stackId} : {}
+						const stackId= rule.stackId ? {stackId:rule.stackId} : {}
  						const barSize = rule.barSize || 2;//barSize={barSize}
-
-						return dataKey &&  <Bar  name={name} dataKey={dataKey}  {...style}  barSize={barSize} >
+						return dataKey &&  <Bar  {...stackId} key={`bar__${index}`} name={name} dataKey={dataKey}  {...style}  barSize={barSize} >					
 												{customColors && colorEntry && dataProvider.map((entry, index) => {
-												   const entryValue=entry[colorEntry];
-												   const currentColor=customColors[entryValue] ? customColors[entryValue] : '#ffff00' 
+												  const entryValue=entry[colorEntry];
+												  const currentColor=customColors[entryValue] ? customColors[entryValue] : '#ffff00' 
 										           return<Cell stroke={currentColor} fill={currentColor}/>
 										        })}
 										   </Bar>
 					case 'Legend':
 						const payload= rule.payload ? {payload:rule.payload} : {}
 
-						return <Legend  verticalAlign="top" {...payload} height={50} />
+						return <Legend  key={`leg__${index}`} verticalAlign="top" {...payload} height={50} />
 					case 'Area':
-						return dataKey && <Area name={name} type={type} dataKey={dataKey} {...style} />
+						return dataKey && <Area key={`area__${index}`} name={name} type={type} dataKey={dataKey} {...style} />
 					case 'Point':
-						return dataKey && <Line name={name} type={type} dataKey={dataKey}  stroke="none" dot={{...style}} activeDot={activeDot}/>
+						return dataKey && <Line key={`line__${index}`} name={name} type={type} dataKey={dataKey}  stroke="none" dot={{...style}} activeDot={activeDot}/>
 					case 'Line':
 					default:
-						return dataKey && <Line  label={<ChartPointLabel/>} type="basisClosed" name={name} type={type} dataKey={dataKey} {...style} dot={dot}/>
+						return dataKey && <Line  key={`line__${index}`} label={<ChartPointLabel/>} type="basisClosed" name={name} type={type} dataKey={dataKey} {...style} dot={dot}/>
 				}
 	    })
  }

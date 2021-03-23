@@ -111,7 +111,7 @@ export const ChartComponent = (props)=>{
 
 				      	{ChartElements(chartRules,dataProvider)}
 				       <CartesianGrid strokeDasharray="1 3"/>
-				      <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
+				      <Tooltip  formatter={payloadFormatter}/>
 
 			      </ComposedChart>
 
