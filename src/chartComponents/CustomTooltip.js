@@ -18,7 +18,9 @@ export const CustomTooltip = props => {
       props.payload.forEach((item)=>{
         let name=item.name;
         let value=item.value;
-
+        /*
+    		*to be review  ["formatted value", "formatted name"， ]
+    		*/
         if(name==="Promotion"){
           const mom=moment(value[0])
           const startValue=mom.format("YYYY-MM-DD ddd")

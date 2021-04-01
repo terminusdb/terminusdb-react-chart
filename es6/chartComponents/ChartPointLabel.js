@@ -24,7 +24,7 @@ var ChartPointLabel = function ChartPointLabel(props) {
   return _react["default"].createElement("text", {
     x: x,
     y: y,
-    dy: -4,
+    dy: -5,
     fill: stroke,
     fontSize: 10,
     textAnchor: "middle"

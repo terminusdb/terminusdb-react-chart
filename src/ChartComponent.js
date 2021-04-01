@@ -1,23 +1,18 @@
 import React , {useState} from 'react';
-import { Container} from "reactstrap";
 import ChartElements from "./chartComponents/ChartElements";
 
 import  {ResponsiveContainer, Rectangle,Surface,BarChart,
 	     Symbols,ComposedChart, Line, Area, XAxis, YAxis,
 	     CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
 
-import XAxisLabel from './chartComponents/XAxisLabel';
-import SelectableLegendItem from './chartComponents/SelectableLegendItem';
-
-import ZoomSelection from './chartComponents/ZoomSelection';
 
 import { SizeMe } from 'react-sizeme';
-import ChartPointLabel from './chartComponents/ChartPointLabel';
 
-import LegendComponent from './chartComponents/LegendComponent'
+import CustomLegendElement from './chartComponents/CustomLegendElement'
 import moment from 'moment'
 
 export const ChartComponent = (props)=>{
+<<<<<<< HEAD
 
 	const activeZoom = () => {}; //zoomToggle(!zoomIsActive);
 
@@ -50,6 +45,21 @@ export const ChartComponent = (props)=>{
     };
 
 
+=======
+	const [visibilityObj,changeVisibility] = useState({})
+	const chartConf=props.config || {};
+
+	const chartRules=chartConf.rules || [];
+  	
+	const chartEleConf=chartConf.chart || {};
+	
+	function setVisibility(chartID){
+		const tmpStatus = {...visibilityObj} 
+		if(tmpStatus [chartID]===undefined)tmpStatus[chartID]= false
+		else tmpStatus[chartID]= !visibilityObj[chartID]
+		changeVisibility(tmpStatus)
+	}
+>>>>>>> 14073b4a625e571955afd08875e134d078d7fd80
 	let dataProvider = props.dataProvider || [];
 
 	const zoomStyle = {};
@@ -58,6 +68,7 @@ export const ChartComponent = (props)=>{
 
     const margin = chartEleConf.margin || {top: 10, right: 20, left: 40, bottom:100};
 
+<<<<<<< HEAD
     const title = chartEleConf.title || ""
     const layout= chartEleConf.layout || "horizontal"
 
@@ -118,9 +129,42 @@ export const ChartComponent = (props)=>{
 			    <div className="zoomDiv" style={zoomStyle} height="500px" onMouseUp={onMouseUp}/>
 				</div>}
 			</SizeMe>
+=======
+	const title = chartEleConf.title || ""
+	const description = chartEleConf.description || ""
+    const layout= chartEleConf.layout || "horizontal" 
+
+	const payload=[{color:"#ff0000",value:"MY TEST",type: "rect"}]
+	
+	return (<div style={{height:"500px"}} className="shadow-sm card border-light">
+		<div className="w-100 card-header border-0 bg-white justify-content-between d-flex mt-2">
+			<div>
+			<h4 className="card-title">{title}</h4>
+			<p className="card-category text-secondary">{description}</p>
 			</div>
-			</Container>
-			)//
+			<div className="d-xl-flex flex-wrap justify-content-end bg-red"> 
+			   <CustomLegendElement chartRules={chartRules} visibilityObj={visibilityObj} onClick={setVisibility}/>
+>>>>>>> 14073b4a625e571955afd08875e134d078d7fd80
+			</div>
+		</div>
+	  	<div className="card-body">
+		   <SizeMe monitorHeight={true}>{({ size }) =>
+			<div className="zoomDivContainer" >	  
+			  <ComposedChart layout={layout} height={size.height} width={size.width}				    			
+				  data={dataProvider}
+				  margin={margin}> 
+				 {ChartElements(chartRules,dataProvider,visibilityObj,setVisibility)}				       
+				 <CartesianGrid strokeDasharray="1 3" vertical={false}/>				    
+			   <Tooltip content={<CustomTooltip/>} contentStyle={{background:"#E3EBF6",borderRadius:"0.5em"}}/>			  
+			</ComposedChart>	   
+		  <div className="zoomDiv" style={zoomStyle} height="500px"/>
+		  </div>}
+	  </SizeMe>	
+	  </div>
+	  </div>)
 }
+<<<<<<< HEAD
 // <Tooltip  formatter={payloadFormatter}/>//
+=======
+>>>>>>> 14073b4a625e571955afd08875e134d078d7fd80
 export default ChartComponent;

@@ -9,25 +9,15 @@ exports["default"] = exports.ChartComponent = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _reactstrap = require("reactstrap");
-
 var _ChartElements = _interopRequireDefault(require("./chartComponents/ChartElements"));
 
 var _CustomTooltip = require("./chartComponents/CustomTooltip");
 
 var _recharts = require("recharts");
 
-var _XAxisLabel = _interopRequireDefault(require("./chartComponents/XAxisLabel"));
-
-var _SelectableLegendItem = _interopRequireDefault(require("./chartComponents/SelectableLegendItem"));
-
-var _ZoomSelection = _interopRequireDefault(require("./chartComponents/ZoomSelection"));
-
 var _reactSizeme = require("react-sizeme");
 
-var _ChartPointLabel = _interopRequireDefault(require("./chartComponents/ChartPointLabel"));
-
-var _LegendComponent = _interopRequireDefault(require("./chartComponents/LegendComponent"));
+var _CustomLegendElement = _interopRequireDefault(require("./chartComponents/CustomLegendElement"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -37,27 +27,36 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var ChartComponent = function ChartComponent(props) {
-  var activeZoom = function activeZoom() {}; //zoomToggle(!zoomIsActive);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var ChartComponent = function ChartComponent(props) {
+  var _useState = (0, _react.useState)({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      visibilityObj = _useState2[0],
+      changeVisibility = _useState2[1];
 
   var chartConf = props.config || {};
   var chartRules = chartConf.rules || [];
   var chartEleConf = chartConf.chart || {};
 
-  var onWheel = function onWheel(e) {
-    var obj = e;
-  };
+  function setVisibility(chartID) {
+    var tmpStatus = _objectSpread({}, visibilityObj);
 
-  var onMouseDown = function onMouseDown(e) {};
-
-  var onMouseMove = function onMouseMove(e) {};
-
-  var onMouseUp = function onMouseUp(e) {};
-
-  var zoomBack = function zoomBack() {};
-
-  var calculateGraph = function calculateGraph() {};
+    if (tmpStatus[chartID] === undefined) tmpStatus[chartID] = false;else tmpStatus[chartID] = !visibilityObj[chartID];
+    changeVisibility(tmpStatus);
+  }
 
   var dataProvider = props.dataProvider || [];
   var zoomStyle = {};
@@ -71,82 +70,33 @@ var ChartComponent = function ChartComponent(props) {
     bottom: 100
   };
   var title = chartEleConf.title || "";
+  var description = chartEleConf.description || "";
   var layout = chartEleConf.layout || "horizontal";
   var payload = [{
     color: "#ff0000",
     value: "MY TEST",
     type: "rect"
   }];
-
-  var payloadFormatter = function payloadFormatter(value, name, props) {
-    /*
-    *to be review  ["formatted value", "formatted name"， ]
-    */
-    var label = [];
-
-    if (name === "Promotion") {
-      var mom = (0, _moment["default"])(value[0]);
-      var startValue = mom.format("YYYY-MM-DD ddd");
-      var mom01 = (0, _moment["default"])(value[1]);
-      var endValue = mom01.format("YYYY-MM-DD ddd");
-      label = ["".concat(startValue, " - ").concat(endValue), name];
-    } else {
-      /*
-      * if the name is a payload value I use that value as name
-      */
-      label = [value, name];
-
-      if (props.payload[name]) {
-        var val = props.payload[name];
-        var keysObj = Object.keys(val);
-        var tmpArr = [];
-        keysObj.sort();
-        var vv = '';
-        var n = '';
-        keysObj.forEach(function (key) {
-          vv = vv + key;
-          n = "".concat(n, " ").concat(val[key]);
-        });
-        label = [vv, n];
-      }
-    } //console.log(label);
-
-
-    return label;
-  };
-
-  return _react["default"].createElement(_reactstrap.Container, {
+  return _react["default"].createElement("div", {
     style: {
       height: "500px"
     },
-    fluid: true,
-    className: "border"
-  }, _react["default"].createElement("h4", null, title), _react["default"].createElement("div", {
-    className: "chartContainer"
+    className: "shadow-sm card border-light"
   }, _react["default"].createElement("div", {
-    className: "chartTools"
-  }, _react["default"].createElement("div", {
-    className: "chartToolItem",
-    style: zoomCurrentStyle,
-    onClick: activeZoom
-  }, _react["default"].createElement("span", {
-    className: "fa fa-search-plus",
-    style: {
-      cursor: 'pointer'
-    },
-    onClick: activeZoom
-  })), _react["default"].createElement("div", {
-    className: "chartToolItem",
-    style: {
-      fontSize: "18px"
-    },
-    onClick: zoomBack
-  }, _react["default"].createElement("span", {
-    className: "fa fa-undo",
-    style: {
-      cursor: 'pointer'
-    }
-  }))), _react["default"].createElement(_reactSizeme.SizeMe, {
+    className: "w-100 card-header border-0 bg-white justify-content-between d-flex mt-2"
+  }, _react["default"].createElement("div", null, _react["default"].createElement("h4", {
+    className: "card-title"
+  }, title), _react["default"].createElement("p", {
+    className: "card-category text-secondary"
+  }, description)), _react["default"].createElement("div", {
+    className: "d-xl-flex flex-wrap justify-content-end bg-red"
+  }, _react["default"].createElement(_CustomLegendElement["default"], {
+    chartRules: chartRules,
+    visibilityObj: visibilityObj,
+    onClick: setVisibility
+  }))), _react["default"].createElement("div", {
+    className: "card-body"
+  }, _react["default"].createElement(_reactSizeme.SizeMe, {
     monitorHeight: true
   }, function (_ref) {
     var size = _ref.size;
@@ -157,24 +107,23 @@ var ChartComponent = function ChartComponent(props) {
       height: size.height,
       width: size.width,
       data: dataProvider,
-      onMouseDown: onMouseDown,
-      onMouseUp: onMouseUp,
-      onMouseMove: onMouseMove,
       margin: margin
-    }, (0, _ChartElements["default"])(chartRules, dataProvider), _react["default"].createElement(_recharts.CartesianGrid, {
-      strokeDasharray: "1 3"
+    }, (0, _ChartElements["default"])(chartRules, dataProvider, visibilityObj, setVisibility), _react["default"].createElement(_recharts.CartesianGrid, {
+      strokeDasharray: "1 3",
+      vertical: false
     }), _react["default"].createElement(_recharts.Tooltip, {
-      content: _react["default"].createElement(_CustomTooltip.CustomTooltip, null)
+      content: _react["default"].createElement(_CustomTooltip.CustomTooltip, null),
+      contentStyle: {
+        background: "#E3EBF6",
+        borderRadius: "0.5em"
+      }
     })), _react["default"].createElement("div", {
       className: "zoomDiv",
       style: zoomStyle,
-      height: "500px",
-      onMouseUp: onMouseUp
+      height: "500px"
     }));
-  }))); //
-}; // / <Tooltip  formatter={payloadFormatter}  labelFormatter={axisLabelFormatter}/>
-// <Tooltip  formatter={payloadFormatter}/>//
-
+  })));
+};
 
 exports.ChartComponent = ChartComponent;
 var _default = ChartComponent;
