@@ -25,7 +25,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-var ChartElements = function ChartElements(graphConf, dataProvider) {
+var ChartElements = function ChartElements(graphConf, dataProvider, visibilityObj) {
   var getVariable = function getVariable(variables) {
     var value = null;
 
@@ -90,6 +90,13 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
     var activeDot = {
       r: dotR
     };
+    /*
+    * Check if the chart element is visible
+    */
+
+    if (visibilityObj[dataKey] === false) {
+      return '';
+    }
 
     switch (chartType) {
       case 'Tooltip': // return <Tooltip key={`t__${index}`} formatter={payloadFormatter} />
@@ -108,6 +115,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
         } : {};
         var yAxisProps = getAxisProps(rule, dataKey);
         return _react["default"].createElement(_recharts.YAxis, _extends({
+          scale: "linear",
           key: "yA__".concat(index)
         }, labelEl, {
           allowDuplicatedCategory: true
@@ -120,14 +128,6 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
         }));
 
       case 'XAxis':
-        /*const formatterLabel=(value)=>{
-        	 if(rule.labelDateOutput){
-              const mom=moment(value)
-              value=mom.format(rule.labelDateOutput)
-            }
-            return value; formatter={formatterLabel} tickFormatter={formatterLabel}
-        }*/
-        //
         var xAxisProps = getAxisProps(rule, dataKey);
         return _react["default"].createElement(_recharts.XAxis, _extends({
           key: "xA__".concat(index)
@@ -164,10 +164,16 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
         }));
 
       case 'Legend':
+        //this has an absolute position
+        if (rule.type !== 'default') return;
         var payload = rule.payload ? {
           payload: rule.payload
         } : {};
+        var layout = rule.layout || "horizontal";
+        var align = rule.align || "center";
         return _react["default"].createElement(_recharts.Legend, _extends({
+          align: align,
+          layout: layout,
           key: "leg__".concat(index),
           verticalAlign: "top"
         }, payload, {
@@ -194,10 +200,14 @@ var ChartElements = function ChartElements(graphConf, dataProvider) {
         });
 
       case 'Line':
+        var labelObj = rule.showLabel === false ? {} : {
+          label: _react["default"].createElement(_ChartPointLabel["default"], null)
+        };
+
       default:
-        return dataKey && _react["default"].createElement(_recharts.Line, _extends((_extends2 = {
-          key: "line__".concat(index),
-          label: _react["default"].createElement(_ChartPointLabel["default"], null),
+        return dataKey && _react["default"].createElement(_recharts.Line, _extends({
+          key: "line__".concat(index)
+        }, labelObj, (_extends2 = {
           type: "basisClosed",
           name: name
         }, _defineProperty(_extends2, "type", type), _defineProperty(_extends2, "dataKey", dataKey), _extends2), style, {

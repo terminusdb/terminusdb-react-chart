@@ -8,7 +8,7 @@ const ChartPointLabel = (props) => {
     	valueLabel=Number(value).toFixed(2);
     }
     
-    return <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">{valueLabel}</text>;
+    return <text x={x} y={y} dy={-5} fill={stroke} fontSize={10} textAnchor="middle">{valueLabel}</text>;
 
 }
 

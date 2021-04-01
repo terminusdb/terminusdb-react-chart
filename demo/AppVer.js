@@ -255,8 +255,9 @@ dataNew=[
 
 
   return (
-    
-    <ChartComponent config={config} dataProvider={dataNew} />
+    <div className="Container mt-4 ">
+       <ChartComponent config={config} dataProvider={dataNew} />
+    </div>
   )
 
 

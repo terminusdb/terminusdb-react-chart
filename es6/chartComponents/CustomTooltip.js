@@ -24,12 +24,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var CustomTooltip = function CustomTooltip(props) {
-  // we don't need to check payload[0] as there's a better prop for this purpose
+  //we check if the tooltip is active
   if (!props.active) {
-    // I think returning null works based on this: http://recharts.org/en-US/examples/CustomContentOfTooltip
     return null;
-  } // mutating props directly is against react's conventions
-  // so we create a new payload with the name and value fields set to what we want
+  } // so we create a new payload with the name and value fields set to what we want
 
   /*format the tooltip payload*/
 
@@ -39,6 +37,9 @@ var CustomTooltip = function CustomTooltip(props) {
     props.payload.forEach(function (item) {
       var name = item.name;
       var value = item.value;
+      /*
+      *to be review  ["formatted value", "formatted name"， ]
+      */
 
       if (name === "Promotion") {
         var mom = (0, _moment["default"])(value[0]);
@@ -80,6 +81,9 @@ var CustomTooltip = function CustomTooltip(props) {
   };
 
   var newPayload = newPayload01();
+  /*
+  * add as a rule
+  */
 
   var axisLabelFormatter = function axisLabelFormatter(axisLabel) {
     var mom = (0, _moment["default"])(axisLabel);
