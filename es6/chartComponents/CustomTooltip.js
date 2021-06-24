@@ -91,7 +91,7 @@ var CustomTooltip = function CustomTooltip(props) {
   }; // we render the default, but with our overridden payload
 
 
-  return _react["default"].createElement(_DefaultTooltipContent["default"], _extends({
+  return /*#__PURE__*/_react["default"].createElement(_DefaultTooltipContent["default"], _extends({
     labelFormatter: axisLabelFormatter
   }, props, {
     payload: newPayload

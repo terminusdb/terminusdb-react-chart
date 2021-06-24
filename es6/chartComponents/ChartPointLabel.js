@@ -21,7 +21,7 @@ var ChartPointLabel = function ChartPointLabel(props) {
     valueLabel = Number(value).toFixed(2);
   }
 
-  return _react["default"].createElement("text", {
+  return /*#__PURE__*/_react["default"].createElement("text", {
     x: x,
     y: y,
     dy: -5,

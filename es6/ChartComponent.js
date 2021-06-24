@@ -33,11 +33,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -77,47 +81,47 @@ var ChartComponent = function ChartComponent(props) {
     value: "MY TEST",
     type: "rect"
   }];
-  return _react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     style: {
       height: "500px"
     },
     className: "shadow-sm card border-light"
-  }, _react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "w-100 card-header border-0 bg-white justify-content-between d-flex mt-2"
-  }, _react["default"].createElement("div", null, _react["default"].createElement("h4", {
+  }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h4", {
     className: "card-title"
-  }, title), _react["default"].createElement("p", {
+  }, title), /*#__PURE__*/_react["default"].createElement("p", {
     className: "card-category text-secondary"
-  }, description)), _react["default"].createElement("div", {
+  }, description)), /*#__PURE__*/_react["default"].createElement("div", {
     className: "d-xl-flex flex-wrap justify-content-end bg-red"
-  }, _react["default"].createElement(_CustomLegendElement["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_CustomLegendElement["default"], {
     chartRules: chartRules,
     visibilityObj: visibilityObj,
     onClick: setVisibility
-  }))), _react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, _react["default"].createElement(_reactSizeme.SizeMe, {
+  }, /*#__PURE__*/_react["default"].createElement(_reactSizeme.SizeMe, {
     monitorHeight: true
   }, function (_ref) {
     var size = _ref.size;
-    return _react["default"].createElement("div", {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       className: "zoomDivContainer"
-    }, _react["default"].createElement(_recharts.ComposedChart, {
+    }, /*#__PURE__*/_react["default"].createElement(_recharts.ComposedChart, {
       layout: layout,
       height: size.height,
       width: size.width,
       data: dataProvider,
       margin: margin
-    }, (0, _ChartElements["default"])(chartRules, dataProvider, visibilityObj, setVisibility), _react["default"].createElement(_recharts.CartesianGrid, {
+    }, (0, _ChartElements["default"])(chartRules, dataProvider, visibilityObj, setVisibility), /*#__PURE__*/_react["default"].createElement(_recharts.CartesianGrid, {
       strokeDasharray: "1 3",
       vertical: false
-    }), _react["default"].createElement(_recharts.Tooltip, {
-      content: _react["default"].createElement(_CustomTooltip.CustomTooltip, null),
+    }), /*#__PURE__*/_react["default"].createElement(_recharts.Tooltip, {
+      content: /*#__PURE__*/_react["default"].createElement(_CustomTooltip.CustomTooltip, null),
       contentStyle: {
         background: "#E3EBF6",
         borderRadius: "0.5em"
       }
-    })), _react["default"].createElement("div", {
+    })), /*#__PURE__*/_react["default"].createElement("div", {
       className: "zoomDiv",
       style: zoomStyle,
       height: "500px"

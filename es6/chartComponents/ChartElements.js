@@ -103,7 +103,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
 
       case 'YAxis':
         var labelEl = rule.label ? {
-          label: _react["default"].createElement("text", {
+          label: /*#__PURE__*/_react["default"].createElement("text", {
             id: "mylabel",
             x: "0",
             y: "0",
@@ -114,13 +114,13 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
           }, rule.label)
         } : {};
         var yAxisProps = getAxisProps(rule, dataKey);
-        return _react["default"].createElement(_recharts.YAxis, _extends({
+        return /*#__PURE__*/_react["default"].createElement(_recharts.YAxis, _extends({
           scale: "linear",
           key: "yA__".concat(index)
         }, labelEl, {
           allowDuplicatedCategory: true
         }, yAxisProps, {
-          tick: _react["default"].createElement(_XAxisLabel["default"], {
+          tick: /*#__PURE__*/_react["default"].createElement(_XAxisLabel["default"], {
             yOffset: 0,
             rotate: rule.labelRotate,
             labelDateOutput: rule.labelDateOutput
@@ -129,10 +129,10 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
 
       case 'XAxis':
         var xAxisProps = getAxisProps(rule, dataKey);
-        return _react["default"].createElement(_recharts.XAxis, _extends({
+        return /*#__PURE__*/_react["default"].createElement(_recharts.XAxis, _extends({
           key: "xA__".concat(index)
         }, xAxisProps, {
-          tick: _react["default"].createElement(_XAxisLabel["default"], {
+          tick: /*#__PURE__*/_react["default"].createElement(_XAxisLabel["default"], {
             rotate: rule.labelRotate,
             labelDateOutput: rule.labelDateOutput
           })
@@ -148,7 +148,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
         } : {};
         var barSize = rule.barSize || 2; //barSize={barSize}
 
-        return dataKey && _react["default"].createElement(_recharts.Bar, _extends({}, stackId, {
+        return dataKey && /*#__PURE__*/_react["default"].createElement(_recharts.Bar, _extends({}, stackId, {
           key: "bar__".concat(index),
           name: name,
           dataKey: dataKey
@@ -157,7 +157,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
         }), customColors && colorEntry && dataProvider.map(function (entry, index) {
           var entryValue = entry[colorEntry];
           var currentColor = customColors[entryValue] ? customColors[entryValue] : '#ffff00';
-          return _react["default"].createElement(_recharts.Cell, {
+          return /*#__PURE__*/_react["default"].createElement(_recharts.Cell, {
             stroke: currentColor,
             fill: currentColor
           });
@@ -171,7 +171,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
         } : {};
         var layout = rule.layout || "horizontal";
         var align = rule.align || "center";
-        return _react["default"].createElement(_recharts.Legend, _extends({
+        return /*#__PURE__*/_react["default"].createElement(_recharts.Legend, _extends({
           align: align,
           layout: layout,
           key: "leg__".concat(index),
@@ -181,7 +181,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
         }));
 
       case 'Area':
-        return dataKey && _react["default"].createElement(_recharts.Area, _extends({
+        return dataKey && /*#__PURE__*/_react["default"].createElement(_recharts.Area, _extends({
           key: "area__".concat(index),
           name: name,
           type: type,
@@ -189,7 +189,7 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
         }, style));
 
       case 'Point':
-        return dataKey && _react["default"].createElement(_recharts.Line, {
+        return dataKey && /*#__PURE__*/_react["default"].createElement(_recharts.Line, {
           key: "line__".concat(index),
           name: name,
           type: type,
@@ -201,11 +201,11 @@ var ChartElements = function ChartElements(graphConf, dataProvider, visibilityOb
 
       case 'Line':
         var labelObj = rule.showLabel === false ? {} : {
-          label: _react["default"].createElement(_ChartPointLabel["default"], null)
+          label: /*#__PURE__*/_react["default"].createElement(_ChartPointLabel["default"], null)
         };
 
       default:
-        return dataKey && _react["default"].createElement(_recharts.Line, _extends({
+        return dataKey && /*#__PURE__*/_react["default"].createElement(_recharts.Line, _extends({
           key: "line__".concat(index)
         }, labelObj, (_extends2 = {
           type: "basisClosed",
